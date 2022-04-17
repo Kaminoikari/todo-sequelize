@@ -1,6 +1,10 @@
+const express = require('express')
+const router = express.Router()
+
 const db = require('../../models')
 const Todo = db.Todo
 
+// create new todo
 router.get('/new', (req, res) => {
   return res.render('new')
 })
@@ -14,6 +18,7 @@ router.post('/', (req, res) => {
     .catch(err => console.log(err))
 })
 
+// view todo detail
 router.get('/:id', (req, res) => {
   const UserId = req.user.id
   const id = req.params.id
@@ -26,7 +31,8 @@ router.get('/:id', (req, res) => {
     .catch((error) => console.log(error))
 })
 
-outer.get('/:id/edit', (req, res) => {
+// edit todo detail page
+router.get('/:id/edit', (req, res) => {
   const UserId = req.user.id
   const id = req.params.id
 
@@ -35,6 +41,7 @@ outer.get('/:id/edit', (req, res) => {
     .catch((error) => console.log(error))
 })
 
+// Render todo detail page after edited
 router.put('/:id', (req, res) => {
   const UserId = req.user.id
   const id = req.params.id
@@ -51,6 +58,7 @@ router.put('/:id', (req, res) => {
     .catch((error) => console.log(error))
 })
 
+// Delete todo
 router.delete('/:id', (req, res) => {
   const UserId = req.user.id
   const id = req.params.id
@@ -60,6 +68,5 @@ router.delete('/:id', (req, res) => {
     .then(() => res.redirect('/'))
     .catch(err => console.log(err)) 
 })
-
 
 module.exports = router
