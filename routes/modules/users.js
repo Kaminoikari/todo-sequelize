@@ -13,9 +13,18 @@ router.get('/login', (req, res) => {
 
 router.post(
   '/login',
+  (req, res, next) => {
+    const email = req.body.email
+    const password = req.body.password
+    if (!email || !password) {
+      req.flash('warning_msg', 'Email & Password are required')
+    }
+    next()
+  },
   passport.authenticate('local', {
-    successRedirect: '/',
     failureRedirect: '/users/login',
+    successRedirect: '/',
+    failureFlash: true,
   })
 )
 
@@ -70,7 +79,7 @@ router.post('/register', (req, res) => {
   })
 })
 
-router.get('/users/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   req.logout()
   req.flash('success_msg', '你已經成功登出。')
   res.redirect('/users/login')
